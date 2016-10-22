@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('post', function(){
+    return view('auth.post');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });

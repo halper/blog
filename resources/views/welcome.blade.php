@@ -6,10 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>aLpEr's BLoG</title>
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{URL::asset('css/materialize.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::asset('css/social-share-kit.css')}}">
+    @include('base.css')
 
 </head>
 <body style="background-color: #fdfdfd">
@@ -38,7 +35,6 @@
 
     </div>
 </section>
-<script src="{{URL::asset('js/app.js')}}"></script>
-<script src="{{URL::asset('js/materialize.min.js')}}"></script>
+@include('base.js')
 </body>
 </html>

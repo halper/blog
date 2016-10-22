@@ -9,8 +9,8 @@
             $now = \Carbon\Carbon::now();
             $age = $now->diffInYears($bdate);
             ?>
-            {{$age}} years old fellow from Turkey with a huge love for technology, science, sports & travel.
-            Blogger, reader, developer, wannabe maker and husband.
+            {{$age}} years old fellow from Turkey with a huge love for web/sw development, technology, science, sports & travel.
+                <br>Blogger, reader, developer, wannabe maker and husband.
         </p>
 
     </div>
@@ -36,7 +36,7 @@
         <h4>Subscribe</h4>
 
         <div class="card-panel cyan lighten-5 ">
-            <p>Subscribe to get latest posts!</p>
+            <p>Subscribe to get latest posts from my blog!</p>
             <div class="row">
                 <div class="input-field col s12">
                     <input id="name" type="text" class="validate">
