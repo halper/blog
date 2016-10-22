@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+
+Route::post('/add-category', 'ApiController@addCategory');
+Route::post('/add-tag', 'ApiController@addTag');
+Route::post('/upload-file', 'ApiController@uploadFile');
+Route::get('/fetch-categories', 'ApiController@fetchCategories');
+Route::get('/fetch-tags', 'ApiController@fetchTags');

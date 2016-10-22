@@ -10,7 +10,7 @@
 <body>
 <div id="post-app" class="container">
     <div class="row">
-        <div class="col s9">
+        <div class="col s8">
             <div class="row">
                 <div class="input-field col s12">
                     <input id="title"
@@ -37,15 +37,15 @@
             </div>
         </div>
 
-        <div class="col s3">
+        <div class="col s3 right">
             <div class="row center">
                 <div class="col s12">
                     <h4>Category</h4>
                     <div class="row">
                         <div class="input-field col s12">
                             <select v-model="selected" @change="categorySelect()" class="browser-default">
-                                <option v-for="option in options" :value="option.value">
-                                    @{{ option.text }}
+                                <option v-for="option in options" :value="option.id">
+                                    @{{ option.name }}
                                 </option>
                             </select>
                         </div>
@@ -67,6 +67,18 @@
                     <div class="chip" v-for="(tag, index) in tags">
                         @{{ tag }}
                         <i class="close material-icons" @click="removeTag(index)">close</i>
+                    </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>File</span>
+                            <input type="file" id="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
                     </div>
                 </div>
 

@@ -10,16 +10,14 @@
             title: '',
             body: '',
             newCategory: '',
-            tags: ['java', 'python', 'android', 'laravel'],
-            options: [
-                {text: 'Tutorials', value: '1'},
-                {text: 'Projects', value: '2'},
-                {text: 'Self notes', value: '3'}
-            ],
+            tags: '',
+            options: 'Select a category',
             selected: '',
             newTag: '',
         },
-        mounted: function(){
+        mounted: function () {
+            this.fetchCategories();
+            this.fetchTags();
 //            $('select').material_select();
 
         },
@@ -30,30 +28,68 @@
             save: function () {
 
             },
+            fetchTags: function() {
+                this.$http.get('/api/fetch-tags')
+                        .then(function(response) {
+                          this.tags = response.data;
+                        })
+            },
             addTag: function () {
-                this.tags.push(this.newTag.toLowerCase());
-                this.newTag = '';
-                this.save();
+                var tag = this.newTag.toLowerCase();
+                this.$http.post('/api/add-tag', {
+                            name: tag
+                        })
+                        .then(function () {
+                            this.tags.push(tag);
+                            this.newTag = '';
+                            this.save();
+                        });
+
             },
             removeTag: function (index) {
                 this.tags.splice(index, 1);
                 this.save();
             },
             categorySelect: function () {
-                console.log(this.selected);
+                this.save();
             },
-
-            addNewCategory: function(){
-                this.options.push({text: this.newCategory, value: this.options.length+1});
+            fetchCategories: function () {
+                this.$http.get('/api/fetch-categories')
+                        .then(function (response) {
+                            this.options = response.data;
+                        })
+            },
+            addNewCategory: function () {
+                this.$http.post('/api/add-category', {
+                            name: this.newCategory
+                        })
+                        .then(function (response) {
+                            this.options.push(response.data);
+                            this.selected = response.data.id;
+                        });
                 this.newCategory = '';
-                this.selected = this.options.length;
                 $('#modal-new-cat').closeModal();
             }
 
         }
     });
-    $(document).ready(function(){
+    $(document).ready(function () {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.modal-trigger').leanModal();
+
+        $('input[type=file]').on('change', function(){
+            var formData = new FormData();
+            formData.append('file', $('#file')[0].files[0]);
+
+            $.ajax({
+                url : '/api/upload-file',
+                type : 'POST',
+                data : formData,
+                processData: false,  // tell jQuery not to process the data
+                contentType: false,  // tell jQuery not to set contentType
+            });
+        });
+
+
     });
 </script>
