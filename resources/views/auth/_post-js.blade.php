@@ -2,7 +2,7 @@
 {{--<script src="https://unpkg.com/vue/dist/vue.js"></script>--}}
 <script src="js/vue-resource.js"></script>
 <script>
-
+    Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[id="_token"]').attr('content');
 
     var postApp = new Vue({
         el: '#post-app',
@@ -14,25 +14,47 @@
             options: 'Select a category',
             selected: '',
             newTag: '',
+            postId: '',
+            published: 0,
+            fileId: '',
         },
         mounted: function () {
             this.fetchCategories();
-            this.fetchTags();
 //            $('select').material_select();
 
         },
         methods: {
             publish: function () {
+                this.published = 1;
                 this.save();
             },
             save: function () {
-
-            },
-            fetchTags: function() {
-                this.$http.get('/api/fetch-tags')
-                        .then(function(response) {
-                          this.tags = response.data;
-                        })
+                if(!this.postId){
+                    if(!this.title){
+                        notifyAsToast('You should have a title to save your post!', 'danger');
+                    }
+                    else {
+                        this.$http.post('/post/get-post-id', {
+                            title: this.title
+                        }).then(function(response){
+                            this.postId = response.data;
+                            this.save();
+                        });
+                    }
+                }
+                else{
+                    this.$http.post('/post/save',{
+                        post: this.postId,
+                        title: this.title,
+                        body: this.body,
+                        category: this.selected,
+                        tags: this.tags,
+                        file: this.fileId
+                    }).then(function(){
+                        notifyAsToast('Save successful!', 'success');
+                        this.published = 0;
+                    })
+                }
             },
             addTag: function () {
                 var tag = this.newTag.toLowerCase();
@@ -69,7 +91,7 @@
                         });
                 this.newCategory = '';
                 $('#modal-new-cat').closeModal();
-            }
+            },
 
         }
     });
@@ -87,7 +109,10 @@
                 data : formData,
                 processData: false,  // tell jQuery not to process the data
                 contentType: false,  // tell jQuery not to set contentType
-            });
+            })
+                    .done(function(data){
+                        postApp.fileId = data;
+                    });
         });
 
 

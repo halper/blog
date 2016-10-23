@@ -22,3 +22,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::post('/post/get-post-id', 'PostController@getPostId');
+Route::post('/post/save', 'PostController@save');

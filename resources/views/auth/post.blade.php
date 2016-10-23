@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <select v-model="selected" @change="categorySelect()" class="browser-default">
-                                <option v-for="option in options" :value="option.id">
+                            <option v-for="option in options" :value="option.id">
                                     @{{ option.name }}
                                 </option>
                             </select>

@@ -58,8 +58,15 @@ class ApiController extends Controller
                 $file_name = uniqid(rand(), true) . ".$extension";
             }while(File::where('name', '=', $file_name)->count());
             $destination_path = 'img/posts';
-            if($my_file->move($destination_path, $file_name))
-                return response($file_name, 200);
+            if($my_file->move($destination_path, $file_name)){
+                $feature_img = File::create(['name' => $file_name]);
+                if($feature_img)
+                    return response($feature_img->id, 200);
+                else{
+                    unlink($destination_path . $file_name);
+                    return response('Something went wrong with database!', 500);
+                }
+            }
             return response('Something went wrong!', 500);
         }
         else

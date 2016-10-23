@@ -4,12 +4,14 @@ namespace App;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use Sluggable;
+    use Sluggable, SoftDeletes;
 
     protected $fillable = ['title', 'body', 'published', 'viewed', 'liked', 'shared', 'publish_date'];
+    protected $dates = ['deleted_at'];
 
     /**
      * Return the sluggable configuration array for this model.
