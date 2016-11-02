@@ -3,7 +3,7 @@
 <script src="js/materialize.js"></script>
 <script>
     function notifyAsToast(message, type) {
-        $.growl({
+        $.notify({
             message: message
         }, {
             element: 'body',
@@ -32,6 +32,5 @@
             '</div>'
         });
     }
-    Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[id="_token"]').attr('content');
 
 </script>

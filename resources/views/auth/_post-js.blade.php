@@ -10,7 +10,7 @@
             title: '',
             body: '',
             newCategory: '',
-            tags: '',
+            tags: [],
             options: 'Select a category',
             selected: '',
             newTag: '',
@@ -29,28 +29,28 @@
                 this.save();
             },
             save: function () {
-                if(!this.postId){
-                    if(!this.title){
+                if (!this.postId) {
+                    if (!this.title) {
                         notifyAsToast('You should have a title to save your post!', 'danger');
                     }
                     else {
                         this.$http.post('/post/get-post-id', {
                             title: this.title
-                        }).then(function(response){
+                        }).then(function (response) {
                             this.postId = response.data;
                             this.save();
                         });
                     }
                 }
-                else{
-                    this.$http.post('/post/save',{
+                else {
+                    this.$http.post('/post/save', {
                         post: this.postId,
                         title: this.title,
                         body: this.body,
                         category: this.selected,
                         tags: this.tags,
                         file: this.fileId
-                    }).then(function(){
+                    }).then(function () {
                         notifyAsToast('Save successful!', 'success');
                         this.published = 0;
                     })
@@ -62,7 +62,12 @@
                             name: tag
                         })
                         .then(function () {
-                            this.tags.push(tag);
+                            if (this.tags.length == 0) {
+                                this.tags = [tag];
+                            }
+                            else {
+                                this.tags.push(tag);
+                            }
                             this.newTag = '';
                             this.save();
                         });
@@ -99,18 +104,18 @@
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.modal-trigger').leanModal();
 
-        $('input[type=file]').on('change', function(){
+        $('input[type=file]').on('change', function () {
             var formData = new FormData();
             formData.append('file', $('#file')[0].files[0]);
 
             $.ajax({
-                url : '/api/upload-file',
-                type : 'POST',
-                data : formData,
-                processData: false,  // tell jQuery not to process the data
-                contentType: false,  // tell jQuery not to set contentType
-            })
-                    .done(function(data){
+                        url: '/api/upload-file',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,  // tell jQuery not to process the data
+                        contentType: false,  // tell jQuery not to set contentType
+                    })
+                    .done(function (data) {
                         postApp.fileId = data;
                     });
         });

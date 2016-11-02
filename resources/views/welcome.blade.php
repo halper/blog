@@ -14,6 +14,7 @@
     <div class="row">
         <div class="col s12">
             <h3 class="center-align">aLpEr</h3>
+
             <p class="center-align grey-text text-lighten-1" style="font-size: larger;"><i>knowledge is power.
                     information is power.</i></p>
         </div>
@@ -21,17 +22,19 @@
 </section>
 
 <section id="content">
-    <div class="container">
 
-        <div class="row">
-            <div class="col m9">
+
+    <div class="row">
+        <div class="col m9">
+            <div class="container">
                 @include('left-side')
             </div>
-
-            <div class="col m3" id="right-side">
-                @include('right-side')
-            </div>
         </div>
+
+        <div class="col m3" id="right-side">
+            @include('right-side')
+        </div>
+
 
     </div>
 </section>
