@@ -2,3 +2,4 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{URL::asset('css/materialize.css')}}">
 <link rel="stylesheet" type="text/css" href="{{URL::asset('css/social-share-kit.css')}}">
+<link rel="stylesheet" type="text/css" href="{{URL::asset('css/prism.css')}}">

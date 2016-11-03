@@ -21,6 +21,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::bind('story', function ($slug) {
+    return \App\Post::where('slug', '=', $slug)->first();
+});
+
+Route::get('/{story}', function (\App\Post $post) {
+    if(empty($post)) return redirect()->back();
+    return view('story')->with('story', $post);
+});
+
 Route::get('/home', 'HomeController@index');
 
 Route::post('/post/get-post-id', 'PostController@getPostId');

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\File;
 use App\Post;
-use Illuminate\Http\Request;
+use App\Tag;
+use Request;
 
-use App\Http\Requests;
 
 class PostController extends Controller
 {
@@ -21,6 +23,25 @@ class PostController extends Controller
     public function save(Request $request)
     {
         dd($request->all());
+        $post = Post::findOrFail($request->post);
+        $post->title = $request->title;
+        $post->body = $request->body;
+        if(!empty($request->category)){
+            $category = Category::findOrFail($request->category);
+            $post->category()->associate($category);
+        }
+        if(!empty($request->tags)){
+            foreach($request->tags as $tag_name){
+                $tag = Tag::getFromName($tag_name);
+                $post->tags()->attach($tag);
+            }
+        }
+        if(!empty($request->get('file'))){
+            $cover_pic = File::findOrFail($request->get('file'));
+            $post->files()->attach($cover_pic, ['cover_pic' => 1]);
+        }
+        $post->save();
+        return response('Success!', 200);
     }
 
 }

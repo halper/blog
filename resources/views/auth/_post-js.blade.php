@@ -15,7 +15,7 @@
             selected: '',
             newTag: '',
             postId: '',
-            published: 0,
+            published: false,
             fileId: '',
         },
         mounted: function () {
@@ -25,7 +25,7 @@
         },
         methods: {
             publish: function () {
-                this.published = 1;
+                this.published = !this.published;
                 this.save();
             },
             save: function () {
@@ -49,10 +49,10 @@
                         body: this.body,
                         category: this.selected,
                         tags: this.tags,
-                        file: this.fileId
+                        file: this.fileId,
+                        published: this.published
                     }).then(function () {
                         notifyAsToast('Save successful!', 'success');
-                        this.published = 0;
                     })
                 }
             },
