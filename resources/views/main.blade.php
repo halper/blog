@@ -25,5 +25,6 @@
     @yield('content')
 </section>
 @include('base.js')
+@yield('page-specific-js')
 </body>
 </html>

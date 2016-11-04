@@ -64,13 +64,25 @@ class Post extends Model
     }
 
     public function getBody() {
-        $body = '<p>' . preg_replace('/\n/i', '<br>', $this->body) . '</p>';
-        return $this->replaceCode($body);
+        $body = '<p>' . $this->body . '</p>';
+        $body = $this->replaceCodeTag($body);
+        return (preg_replace('/\r\n/i', '<br>', $body));
     }
 
-    private function replaceCode($body){
-        $pattern = '/(code:)(\w+)(:)(.*?)(:code)/i';
-        $replacement = '</p><pre><code class="language-'.'$2'.'">$4</code></pre><p>';
-        return (preg_replace($pattern, $replacement, $body));
+    private function replaceCodeTag($body){
+        $pattern = '/(code:)(\w+)(:)/i';
+        $replacement = '<pre><code class="language-'.'$2'.'">';
+        $body = preg_replace($pattern, $replacement, $body);
+        $pattern = '/(:code)/i';
+        $replacement = '</code></pre>';
+        $body = preg_replace($pattern, $replacement, $body);
+        return $this->makeParagraphBetweenTags($body, "pre");
+    }
+
+    private function makeParagraphBetweenTags($body, $tag)
+    {
+        $pattern = '/(?<=<\/'.$tag .'>\n)([^<>]+)\n(?=<'.$tag.'>)/i';
+        $replacement = '<p>$1</p>';
+        return preg_replace($pattern, $replacement, $body);
     }
 }

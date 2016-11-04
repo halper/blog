@@ -11,8 +11,18 @@
 |
 */
 
+Route::bind('story', function ($slug) {
+    return \App\Post::where('slug', '=', $slug)->first();
+});
+
 Route::get('post', function(){
     return view('auth.post');
+});
+Route::get('new-post', function(){
+    return view('auth.new-post');
+});
+Route::get('edit', function(){
+    return view('auth.edit');
 });
 
 Route::get('/', function () {
@@ -20,10 +30,6 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::bind('story', function ($slug) {
-    return \App\Post::where('slug', '=', $slug)->first();
-});
 
 Route::get('/{story}', function (\App\Post $post) {
     if(empty($post)) return redirect()->back();

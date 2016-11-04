@@ -8787,3 +8787,16 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 textarea#body {
     height: 32rem;
 }
+
+#story p {
+
+    margin-top: 38px;
+    font-family: medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;
+    letter-spacing: .01rem;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 21px;
+    line-height: 1.58;
+    /*letter-spacing: -.003em;*/
+
+}
