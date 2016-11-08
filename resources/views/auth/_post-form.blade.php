@@ -17,7 +17,7 @@
 
         <div class="row">
             <div class="col s12">
-                <a class="btn waves-effect waves-light" @click="publish()">Publish
+                <a class="btn waves-effect waves-light" @click="publish()">@{{ published ? 'Unpublish' : 'Publish' }}
                 <i class="material-icons right">send</i>
                 </a>
                 <a class="btn waves-effect waves-light blue right" @click="save()">Save

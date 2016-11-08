@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\File;
+use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,22 @@ class ApiController extends Controller
         }
         $category = Tag::create(['name' => $name]);
         return response(['id' => $category->id, 'name' => $category->name], 200);
+    }
+
+    public function fetchPost(Request $request)
+    {
+        $post = Post::findOrFail($request->id);
+        $my_resp = [];
+        $my_resp['category'] = $post->category->id;
+        $my_resp['title'] = $post->title;
+        $my_resp['body'] = $post->body;
+        $tags = [];
+        foreach ($post->tags as $tag) {
+            $tags[] = $tag->name;
+        }
+        $my_resp['tags'] = $tags;
+        $my_resp['published'] = !empty($post->published);
+        return response($my_resp, 200);
     }
 
     public function fetchTags()

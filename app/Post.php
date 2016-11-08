@@ -55,7 +55,7 @@ class Post extends Model
 
     public function scopePosted($query)
     {
-        return $query->where('published_on', '<=', Carbon::now())->orderBy('published_on', 'DESC');
+        return $query->where('published', '=', 1)->where('published_on', '<=', Carbon::now())->orderBy('published_on', 'DESC');
     }
 
     public function coverPicName()
@@ -63,15 +63,29 @@ class Post extends Model
         return $this->files()->where('cover_pic', '=', 1)->first()->name;
     }
 
-    public function getBody() {
+    public function getContent()
+    {
+        $body = str_replace('<p>', '', $this->getBody());
+        preg_match_all('/<\b[^>]*>/i', $body, $matches, PREG_OFFSET_CAPTURE);
+        $length = sizeof($body) > 150 ? 150 : sizeof($body);
+        if (!empty($matches) && sizeof($matches[0]) > 0) {
+            $length = $matches[0][0][1] < 150 ? $matches[0][0][1] : $length;
+        }
+
+        return preg_replace('/[!?:;,.]/i', '', preg_replace('/\s+$/i', '', substr($body, 0, $length))) . '...';
+    }
+
+    public function getBody()
+    {
         $body = '<p>' . $this->body . '</p>';
         $body = $this->replaceCodeTag($body);
         return (preg_replace('/\r\n/i', '<br>', $body));
     }
 
-    private function replaceCodeTag($body){
+    private function replaceCodeTag($body)
+    {
         $pattern = '/(code:)(\w+)(:)/i';
-        $replacement = '<pre><code class="language-'.'$2'.'">';
+        $replacement = '<pre><code class="language-' . '$2' . '">';
         $body = preg_replace($pattern, $replacement, $body);
         $pattern = '/(:code)/i';
         $replacement = '</code></pre>';
@@ -81,7 +95,7 @@ class Post extends Model
 
     private function makeParagraphBetweenTags($body, $tag)
     {
-        $pattern = '/(?<=<\/'.$tag .'>\n)([^<>]+)\n(?=<'.$tag.'>)/i';
+        $pattern = '/(?<=<\/' . $tag . '>\n)([^<>]+)\n(?=<' . $tag . '>)/i';
         $replacement = '<p>$1</p>';
         return preg_replace($pattern, $replacement, $body);
     }

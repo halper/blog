@@ -17,6 +17,9 @@
             postId: '',
             published: false,
             fileId: '',
+
+            postSelected: 'Select a Post',
+            hasPostSelected: false
         },
         mounted: function () {
             this.fetchCategories();
@@ -24,6 +27,22 @@
 
         },
         methods: {
+            postSelect: function () {
+                this.postId = this.postSelected;
+                this.fetchPost();
+            },
+            fetchPost: function() {
+              this.$http.post('/api/fetch-post', {
+                  id: this.postId
+              }).then(function(response){
+                  this.hasPostSelected = true;
+                  this.selected = response.data.category;
+                  this.title = response.data.title;
+                  this.body = response.data.body;
+                  this.tags = response.data.tags;
+                  this.published = response.data.published;
+              });
+            },
             publish: function () {
                 this.published = !this.published;
                 this.save();
@@ -50,10 +69,13 @@
                         category: this.selected,
                         tags: this.tags,
                         file: this.fileId,
-                        published: this.published
+                        published: !this.published
                     }).then(function () {
                         notifyAsToast('Save successful!', 'success');
-                    })
+                    }, function(){
+                        notifyAsToast('Something went wrong!', 'error');
+                        this.published = !this.published
+                    });
                 }
             },
             addTag: function () {

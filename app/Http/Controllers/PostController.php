@@ -6,7 +6,7 @@ use App\Category;
 use App\File;
 use App\Post;
 use App\Tag;
-use Request;
+use Illuminate\Http\Request;
 
 
 class PostController extends Controller
@@ -22,15 +22,16 @@ class PostController extends Controller
 
     public function save(Request $request)
     {
-        dd($request->all());
         $post = Post::findOrFail($request->post);
         $post->title = $request->title;
         $post->body = $request->body;
+        if(!empty($request->published) && $request->published === true) $post->published = 1;
         if(!empty($request->category)){
             $category = Category::findOrFail($request->category);
             $post->category()->associate($category);
         }
         if(!empty($request->tags)){
+            $post->tags()->detach();
             foreach($request->tags as $tag_name){
                 $tag = Tag::getFromName($tag_name);
                 $post->tags()->attach($tag);

@@ -9,11 +9,9 @@
     <title>Post</title>
 </head>
 <body>
-<div id="post-app" class="container">
 
-    @yield('post-content')
+@yield('post-content')
 
-</div>
 
 @include('base.js')
 @include('auth._post-js')

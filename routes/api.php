@@ -20,5 +20,6 @@ Route::get('/user', function (Request $request) {
 Route::post('/add-category', 'ApiController@addCategory');
 Route::post('/add-tag', 'ApiController@addTag');
 Route::post('/upload-file', 'ApiController@uploadFile');
+Route::post('/fetch-post', 'ApiController@fetchPost');
 Route::get('/fetch-categories', 'ApiController@fetchCategories');
 Route::get('/fetch-tags', 'ApiController@fetchTags');
