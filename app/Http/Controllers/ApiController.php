@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\File;
 use App\Post;
+use App\Subscriber;
 use App\Tag;
 use Illuminate\Http\Request;
 
@@ -88,5 +89,12 @@ class ApiController extends Controller
         }
         else
             return response('File is not valid', 500);
+    }
+
+    public function saveSubscription(Request $request)
+    {
+        $subscription = Subscriber::create($request->all());
+
+        return $subscription ? response('Success', 200) : response('Something went wrong', 500);
     }
 }

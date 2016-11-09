@@ -63,6 +63,11 @@ class Post extends Model
         return $this->files()->where('cover_pic', '=', 1)->first()->name;
     }
 
+    public function getCategoryName()
+    {
+        return count($this->category) ? $this->category->name : "Uncategorized";
+    }
+
     public function getContent()
     {
         $body = str_replace('<p>', '', $this->getBody());
