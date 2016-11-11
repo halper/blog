@@ -23,6 +23,9 @@
                             email: this.email
                         }).then(function () {
                             notifyAsToast('Thank you for your subscription!', 'success');
+                            this.name = '';
+                            this.surname = '';
+                            this.email = '';
                         }, function () {
                             notifyAsToast('Something went wrong', 'error');
                         });

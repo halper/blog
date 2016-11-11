@@ -8790,7 +8790,6 @@ textarea#body {
 
 #story p {
 
-    margin-top: 38px;
     font-family: medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;
     letter-spacing: .01rem;
     font-weight: 400;
@@ -8828,4 +8827,30 @@ div.card-content > p {
 
 div#user {
     display: none;
+}
+
+.view-count {
+    color: #bec2c3;
+    font-weight: 300;
+}
+
+#story > .container .story-content {
+    text-align: justify;
+}
+
+#story > .container p {
+    color: #4b4b4b;
+}
+
+#story > .container h4, h5 {
+    margin-top: 3rem;
+}
+
+#story .chip {
+    margin-bottom: 2.5rem;
+}
+
+#story > .container strong {
+    color: #000;
+    font-weight: bold;
 }

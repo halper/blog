@@ -22,7 +22,7 @@ $cover_pic_url = $_SERVER['HTTP_HOST'] . "/$cover_pic_src";
             <span style="font-weight: 300; color: #607D8B; font-size: 14pt; text-transform: uppercase; margin-bottom: 8px">{{$story->getCategoryName()}}</span>
         </div>
 
-        <img class="responsive-img" src="{{$cover_pic_src}}" alt="Cover Pic">
+        <img class="responsive-img" src="/{{$story->slug}}/image" alt="Cover Pic">
 
         <div class="container">
             <br>
@@ -33,8 +33,8 @@ $cover_pic_url = $_SERVER['HTTP_HOST'] . "/$cover_pic_src";
                         <span class="chip">{{$story->tags[$i]->name}}</span>
                     @endfor
                 </div>
-                <div class="row col s12">
-                    {!! $story->getBody() !!}
+                <div class="row col s12 story-content">
+                    {!! ($story->getBody()) !!}
                 </div>
             </div>
             <div class="row">

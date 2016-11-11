@@ -11,6 +11,8 @@
 |
 */
 
+use Intervention\Image\Facades\Image;
+
 Route::bind('story', function ($slug) {
     return \App\Post::where('slug', '=', $slug)->first();
 });
@@ -31,8 +33,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/{story}/image', function (\App\Post $post) {
+    if(empty($post)) return redirect()->back();
+
+    return $post->getCoverImg();
+});
+
 Route::get('/{story}', function (\App\Post $post) {
     if(empty($post)) return redirect()->back();
+    $post->viewed = $post->viewed + 1;
+    $post->save();
     return view('story')->with('story', $post);
 });
 

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Intervention\Image\Facades\Image;
 
 class Post extends Model
 {
@@ -80,11 +81,31 @@ class Post extends Model
         return preg_replace('/[!?:;,.]/i', '', preg_replace('/\s+$/i', '', substr($body, 0, $length))) . '...';
     }
 
+    public function getCoverImg()
+    {
+        $img = Image::make("img/posts/" . $this->coverPicName());
+        return $img->resize($img->width(), ceil($img->width() / 2.39))->response('jpg');
+    }
+
     public function getBody()
     {
         $body = '<p>' . $this->body . '</p>';
+        $body = $this->replaceHtmlTags($body);
         $body = $this->replaceCodeTag($body);
-        return (preg_replace('/\r\n/i', '<br>', $body));
+        return $body;
+    }
+
+    private function replaceHtmlTags($body)
+    {
+        $html_tags = ['h4', 'h5', 'h6', 'p', 'italic', 'strong'];
+        foreach ($html_tags as $html_tag) {
+            $pattern = '/(' . $html_tag . ':)(\b[^<>]*)(:' . $html_tag . ')/im';
+            $replacement = "<$html_tag>$2</$html_tag>";
+            $body = preg_replace($pattern, $replacement, $body);
+        }
+        $body = preg_replace('/(href:)(.*):(\b[^<>]*)(:href)/i', '<a href="$2" target="_blank">$3</a>', $body);
+        $body = preg_replace('/br:/i', '<br>', $body);
+        return $body;
     }
 
     private function replaceCodeTag($body)

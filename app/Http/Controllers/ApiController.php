@@ -10,6 +10,7 @@ use App\Tag;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Intervention\Image\Image;
 
 class ApiController extends Controller
 {
@@ -45,6 +46,8 @@ class ApiController extends Controller
     {
         $post = Post::findOrFail($request->id);
         $my_resp = [];
+        $my_resp['category'] = '';
+        if(count($post->category))
         $my_resp['category'] = $post->category->id;
         $my_resp['title'] = $post->title;
         $my_resp['body'] = $post->body;

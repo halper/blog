@@ -39,6 +39,7 @@ class PostController extends Controller
         }
         if(!empty($request->get('file'))){
             $cover_pic = File::findOrFail($request->get('file'));
+            $post->files()->detach();
             $post->files()->attach($cover_pic, ['cover_pic' => 1]);
         }
         $post->save();

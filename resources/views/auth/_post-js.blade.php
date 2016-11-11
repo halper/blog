@@ -68,13 +68,11 @@
                         body: this.body,
                         category: this.selected,
                         tags: this.tags,
-                        file: this.fileId,
-                        published: !this.published
+                        file: this.fileId
                     }).then(function () {
                         notifyAsToast('Save successful!', 'success');
                     }, function(){
                         notifyAsToast('Something went wrong!', 'error');
-                        this.published = !this.published
                     });
                 }
             },
