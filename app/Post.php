@@ -89,9 +89,10 @@ class Post extends Model
 
     public function getBody()
     {
-        $body = '<p>' . $this->body . '</p>';
+        $body = $this->body;
         $body = $this->replaceHtmlTags($body);
         $body = $this->replaceCodeTag($body);
+//        dd($body);
         return $body;
     }
 
@@ -99,12 +100,14 @@ class Post extends Model
     {
         $html_tags = ['h4', 'h5', 'h6', 'p', 'italic', 'strong'];
         foreach ($html_tags as $html_tag) {
-            $pattern = '/(' . $html_tag . ':)(\b[^<>]*)(:' . $html_tag . ')/im';
-            $replacement = "<$html_tag>$2</$html_tag>";
+            $pattern = '/(' . $html_tag . ':)/im';
+            $replacement = "<$html_tag>";
             $body = preg_replace($pattern, $replacement, $body);
+            $body = preg_replace('/(:' . $html_tag . ')/im', "</$html_tag>", $body);
         }
         $body = preg_replace('/(href:)(.*):(\b[^<>]*)(:href)/i', '<a href="$2" target="_blank">$3</a>', $body);
         $body = preg_replace('/br:/i', '<br>', $body);
+        $body = preg_replace('/italic/i', 'i', $body);
         return $body;
     }
 

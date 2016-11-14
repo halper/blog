@@ -2423,6 +2423,7 @@ pre {
 /**
  * Address odd `em`-unit font size rendering in all browsers.
  */
+
 code,
 kbd,
 pre,
@@ -8853,4 +8854,14 @@ div#user {
 #story > .container strong {
     color: #000;
     font-weight: bold;
+}
+
+p code {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    border: 1px solid #E3EDF3;
+    background-color: #F7FAFB;
+    padding: 2px 4px;
+    font-size: 90%;
+    border-radius: 4px;
+    -webkit-font-smoothing: antialiased;
 }
