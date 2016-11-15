@@ -100,4 +100,10 @@ class ApiController extends Controller
 
         return $subscription ? response('Success', 200) : response('Something went wrong', 500);
     }
+
+    public function getPublishStatus(Request $request)
+    {
+        $post = Post::find($request->id);
+        return response(!empty($post->published) ? 'true' : 'false', 200);
+    }
 }

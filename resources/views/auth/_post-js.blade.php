@@ -15,7 +15,7 @@
             selected: '',
             newTag: '',
             postId: '',
-            published: false,
+            published: '',
             fileId: '',
 
             postSelected: 'Select a Post',
@@ -40,7 +40,7 @@
                   this.title = response.data.title;
                   this.body = response.data.body;
                   this.tags = response.data.tags;
-                  this.published = response.data.published;
+                  this.fetchPublishStatus();
               });
             },
             publish: function () {
@@ -68,13 +68,23 @@
                         body: this.body,
                         category: this.selected,
                         tags: this.tags,
-                        file: this.fileId
+                        file: this.fileId,
+                        published: this.published
                     }).then(function () {
                         notifyAsToast('Save successful!', 'success');
+                        this.fetchPublishStatus();
                     }, function(){
                         notifyAsToast('Something went wrong!', 'error');
+                        this.fetchPublishStatus();
                     });
                 }
+            },
+            fetchPublishStatus: function () {
+                this.$http.post('/api/fetch-published', {
+                    id: this.postId
+                }).then(function(response){
+                  this.published = response.data === 'true';
+                });
             },
             addTag: function () {
                 var tag = this.newTag.toLowerCase();

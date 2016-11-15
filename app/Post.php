@@ -73,12 +73,12 @@ class Post extends Model
     {
         $body = str_replace('<p>', '', $this->getBody());
         preg_match_all('/<\b[^>]*>/i', $body, $matches, PREG_OFFSET_CAPTURE);
-        $length = sizeof($body) > 150 ? 150 : sizeof($body);
+        $length = strlen($body) > 150 ? 150 : strlen($body);
         if (!empty($matches) && sizeof($matches[0]) > 0) {
             $length = $matches[0][0][1] < 150 ? $matches[0][0][1] : $length;
         }
 
-        return preg_replace('/[!?:;,.]/i', '', preg_replace('/\s+$/i', '', substr($body, 0, $length))) . '...';
+        return preg_replace('/[!?:;,.]+$/i', '', preg_replace('/\s+$/i', '', substr($body, 0, $length))) . '...';
     }
 
     public function getCoverImg()
@@ -108,6 +108,8 @@ class Post extends Model
         $body = preg_replace('/(href:)(.*):(\b[^<>]*)(:href)/i', '<a href="$2" target="_blank">$3</a>', $body);
         $body = preg_replace('/br:/i', '<br>', $body);
         $body = preg_replace('/italic/i', 'i', $body);
+        $body = preg_replace('/cde: /i', "<code>", $body);
+        $body = preg_replace('/ :cde/i', "</code>", $body);
         return $body;
     }
 

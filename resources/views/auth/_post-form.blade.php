@@ -3,15 +3,12 @@
         <div class="row">
             <div class="input-field col s12">
                 <input id="title"
-                       type="text" name="title" v-model="title">
-                <label for="title">Title</label>
+                       type="text" name="title" v-model="title"
+                       placeholder="Title">
             </div>
 
             <div class="input-field col s12">
-                    <textarea id="body"
-                              class="materialize-textarea"
-                              v-model="body"></textarea>
-                <label for="body">Body</label>
+                <textarea id="body" v-model="body"></textarea>
             </div>
         </div>
 
@@ -30,6 +27,7 @@
         <div class="row center">
             <div class="col s12">
                 <h4>Category</h4>
+
                 <div class="row">
                     <div class="input-field col s12">
                         <select v-model="selected" @change="categorySelect()" class="browser-default">
@@ -39,11 +37,13 @@
                         </select>
                     </div>
                 </div>
-                <a class="right modal-trigger" href="#modal-new-cat"><i class="material-icons left">create_new_folder</i>Add new category</a>
+                <a class="right modal-trigger" href="#modal-new-cat"><i
+                            class="material-icons left">create_new_folder</i>Add new category</a>
             </div>
 
             <div class="col s12">
                 <h4>Tags</h4>
+
                 <div class="row">
                     <div class="col s12">
                         <input placeholder="Tag"
@@ -79,6 +79,7 @@
 <div id="modal-new-cat" class="modal">
     <div class="modal-content">
         <h4>Add New Category</h4>
+
         <div class="row">
             <div class="col s12">
                 <input placeholder="New category"

@@ -6,6 +6,8 @@ use App\Category;
 use App\File;
 use App\Post;
 use App\Tag;
+use Carbon\Carbon;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 
 
@@ -24,8 +26,14 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($request->post);
         $post->title = $request->title;
+        $post->slug = SlugService::createSlug(Post::class, 'slug', $request->title, ['unique' => false]);
         $post->body = $request->body;
-        if(!empty($request->published) && $request->published === true) $post->published = 1;
+        $post->published = 0;
+        if(!empty($request->published) && $request->published === true) {
+            $post->published = 1;
+            if(empty($post->published_on))
+                $post->published_on = Carbon::now()->toDateString();
+        }
         if(!empty($request->category)){
             $category = Category::findOrFail($request->category);
             $post->category()->associate($category);
