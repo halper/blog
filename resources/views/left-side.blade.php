@@ -15,7 +15,9 @@ $posts = \App\Post::posted()->get();
                 <div class="col s12">
                     <div class="card hoverable">
                         <div class="card-image">
-                            <img src="/{{$post->slug}}/image">
+                            <div class="story-image">
+                                <img src="/{{$post->slug}}/image">
+                            </div>
                             <span class="card-title"><strong style="text-transform: uppercase">{{$post->title}}</strong></span>
                         </div>
                         <div class="card-content">
@@ -45,7 +47,9 @@ $posts = \App\Post::posted()->get();
                     <div class="col s6">
                         <div class="card hoverable">
                             <div class="card-image">
+                                <div class="story-image">
                                 <img src="/{{$post->slug}}/image">
+                                </div>
                                 <span class="card-title"
                                       style="text-transform: uppercase;
                                       padding: 20px 20px 5px 20px">{{$post->title}}</span>

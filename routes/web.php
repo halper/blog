@@ -11,21 +11,11 @@
 |
 */
 
-use Intervention\Image\Facades\Image;
 
 Route::bind('story', function ($slug) {
     return \App\Post::where('slug', '=', $slug)->first();
 });
 
-Route::get('post', function(){
-    return view('auth.post');
-});
-Route::get('new-post', function(){
-    return view('auth.new-post');
-});
-Route::get('edit', function(){
-    return view('auth.edit');
-});
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,20 +23,33 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', 'HomeController@index');
+    Route::get('new-post', function () {
+        return view('auth.new-post');
+    });
+    Route::get('edit', function () {
+        return view('auth.edit');
+    });
+});
+
+Route::post('/post/get-post-id', 'PostController@getPostId');
+Route::post('/post/save', 'PostController@save');
+
 Route::get('/{story}/image', function (\App\Post $post) {
-    if(empty($post)) return redirect()->back();
+    if (empty($post)) return redirect()->back();
 
     return $post->getCoverImg();
 });
 
 Route::get('/{story}', function (\App\Post $post) {
-    if(empty($post)) return redirect()->back();
-    $post->viewed = $post->viewed + 1;
-    $post->save();
+    if (empty($post)) return redirect()->back();
+    if (!Auth::user()) {
+        $post->viewed = $post->viewed + 1;
+        $post->save();
+    }
     return view('story')->with('story', $post);
 });
 
-Route::get('/home', 'HomeController@index');
 
-Route::post('/post/get-post-id', 'PostController@getPostId');
-Route::post('/post/save', 'PostController@save');
+

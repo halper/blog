@@ -90,15 +90,15 @@ class Post extends Model
     public function getBody()
     {
         $body = $this->body;
-        $body = $this->replaceHtmlTags($body);
         $body = $this->replaceCodeTag($body);
+        $body = $this->replaceHtmlTags($body);
 //        dd($body);
         return $body;
     }
 
     private function replaceHtmlTags($body)
     {
-        $html_tags = ['h4', 'h5', 'h6', 'p', 'italic', 'strong'];
+        $html_tags = ['h4', 'h5', 'h6', 'p', 'italic', 'strong', 'ol', 'ul', 'li'];
         foreach ($html_tags as $html_tag) {
             $pattern = '/(' . $html_tag . ':)/im';
             $replacement = "<$html_tag>";
