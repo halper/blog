@@ -83,7 +83,8 @@ class Post extends Model
 
     public function getCoverImg()
     {
-        $img = Image::make("img/posts/" . $this->coverPicName());
+        $my_path = realpath(dirname(__FILE__)) . '/..';
+        $img = Image::make($my_path . "/public/img/posts/" . $this->coverPicName());
         return $img->resize($img->width(), ceil($img->width() / 2.39))->response('jpg');
     }
 
