@@ -19,7 +19,8 @@ $cover_pic_url = $_SERVER['HTTP_HOST'] . "/$cover_pic_src";
         <h1>{{$story->title}}</h1>
 
         <div class="row">
-            <span style="font-weight: 300; color: #607D8B; font-size: 14pt; text-transform: uppercase; margin-bottom: 8px">{{$story->getCategoryName()}}</span>
+            in <br>
+            <span class="category-name">{{$story->getCategoryName()}}</span>
         </div>
 
         <img class="responsive-img" src="/{{$story->slug}}/image" alt="Cover Pic">

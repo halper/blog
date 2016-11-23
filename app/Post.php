@@ -72,6 +72,7 @@ class Post extends Model
     public function getContent()
     {
         $body = str_replace('<p>', '', $this->getBody());
+        $body = str_replace('</p>', '', $body);
         preg_match_all('/<\b[^>]*>/i', $body, $matches, PREG_OFFSET_CAPTURE);
         $length = strlen($body) > 150 ? 150 : strlen($body);
         if (!empty($matches) && sizeof($matches[0]) > 0) {
@@ -85,7 +86,9 @@ class Post extends Model
     {
         $my_path = realpath(dirname(__FILE__)) . '/..';
         $img = Image::make($my_path . "/public/img/posts/" . $this->coverPicName());
-        return $img->resize($img->width(), ceil($img->width() / 2.39))->response('jpg');
+        $width = 1440;
+        $height = 535;
+        return $img->fit($width, $height)->response('jpg');
     }
 
     public function getBody()

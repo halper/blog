@@ -8834,9 +8834,38 @@ div#user {
     display: none;
 }
 
+.story-card-link {
+    color: rgba(0,0,0,0.8);
+}
+
+.story-card-link:hover {
+    color: rgba(0,0,150,0.6);
+}
+
 .view-count {
     color: #bec2c3;
     font-weight: 300;
+}
+
+.view-count i.left {
+    margin-right: 5px;
+    margin-top: -1px;
+}
+
+.card-action {
+    height: 60px;
+}
+
+.card-action > div.right {
+    padding-right: 10px;
+}
+
+.category-name {
+    font-weight: 300;
+    color: #607D8B;
+    font-size: 14pt;
+    text-transform: uppercase;
+    margin-bottom: 8px
 }
 
 #story > .container .story-content {
@@ -9053,10 +9082,9 @@ p code {
 .story-image::after {
     display: block;
     position: relative;
-    /*background-image: linear-gradient(to bottom, transparent 45%, black 100%);*/
     background-image: linear-gradient(
-            rgba(0,0,0,0),
-            rgba(0,0,0,0.3)
+            rgba(0, 0, 0, 0),
+            rgba(0, 0, 0, 0.6)
     );
     margin-top: -100px;
     height: 100px;
