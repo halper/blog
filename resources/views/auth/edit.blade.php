@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <select v-model="postSelected" @change="postSelect()" class="browser-default">
-                        @foreach(\App\Post::all() as $blog_post)
+                        @foreach(\App\Post::orderBy('created_at', 'DESC')->get() as $blog_post)
                             <option v-bind:value="{{$blog_post->id}}">{{ $blog_post->title }}</option>
                             @endforeach
                             </select>

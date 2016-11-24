@@ -7,6 +7,7 @@ use App\File;
 use App\Post;
 use App\Subscriber;
 use App\Tag;
+use Auth;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -78,7 +79,8 @@ class ApiController extends Controller
             do {
                 $file_name = uniqid(rand(), true) . ".$extension";
             }while(File::where('name', '=', $file_name)->count());
-            $destination_path = 'img/posts';
+            $my_path = realpath(dirname(__FILE__)) . '/../../';
+            $destination_path = $my_path . 'img/posts';
             if($my_file->move($destination_path, $file_name)){
                 $feature_img = File::create(['name' => $file_name]);
                 if($feature_img)
