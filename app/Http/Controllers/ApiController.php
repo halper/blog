@@ -80,7 +80,7 @@ class ApiController extends Controller
                 $file_name = uniqid(rand(), true) . ".$extension";
             }while(File::where('name', '=', $file_name)->count());
             $my_path = __DIR__ . '/../../../public/';
-            $destination_path = $my_path . 'img/posts';
+            $destination_path = $my_path . 'img/posts/';
             if($my_file->move($destination_path, $file_name)){
                 $feature_img = File::create(['name' => $file_name]);
                 if($feature_img)
