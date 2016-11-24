@@ -109,8 +109,7 @@ class Post extends Model
             $body = preg_replace($pattern, $replacement, $body);
             $body = preg_replace('/(:' . $html_tag . ')/im', "</$html_tag>", $body);
         }
-        $body = preg_replace('/(href:)(.*):/i', '<a href="$2" target="_blank">', $body);
-        $body = preg_replace('/(:href)/i', '</a>', $body);
+        $body = preg_replace('/(href:)(.*):(\b[^<>]*)(:href)/i', '<a href="$2" target="_blank">$3</a>', $body);
         $body = preg_replace('/br:/i', '<br>', $body);
         $body = preg_replace('/italic/i', 'i', $body);
         $body = preg_replace('/cde: /i', "<code>", $body);
