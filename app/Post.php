@@ -102,19 +102,34 @@ class Post extends Model
 
     private function replaceHtmlTags($body)
     {
-        $html_tags = ['h4', 'h5', 'h6', 'p', 'italic', 'strong', 'ol', 'ul', 'li'];
-        foreach ($html_tags as $html_tag) {
-            $pattern = '/(' . $html_tag . ':)/im';
-            $replacement = "<$html_tag>";
-            $body = preg_replace($pattern, $replacement, $body);
-            $body = preg_replace('/(:' . $html_tag . ')/im', "</$html_tag>", $body);
-        }
         $body = preg_replace('/href:(((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\&\.\/\?@\-_=#])*):/i', '<a href="$1" target="_blank">', $body);
         $body = preg_replace('/:href/i', '</a>', $body);
+        $html_tags = ['h4', 'h5', 'h6', '^p', 'italic', 'strong', 'ol', 'ul', 'li'];
+        foreach ($html_tags as $html_tag) {
+            if (strpos($html_tag, '^') !== false) {
+                $html_tag = str_replace('^', '', $html_tag);
+                $pattern = '/^(' . $html_tag . ':)/im';
+            } else
+                $pattern = '/(' . $html_tag . ':)/im';
+            $body = self::replaceTagAndGetBody($html_tag, $pattern, $body);
+        }
+        $html_tags = [];
+        foreach ($html_tags as $html_tag) {
+            $pattern = '/(' . $html_tag . ':)/im';
+            $body = self::replaceTagAndGetBody($html_tag, $pattern, $body);
+        }
         $body = preg_replace('/br:/i', '<br>', $body);
         $body = preg_replace('/italic/i', 'i', $body);
         $body = preg_replace('/cde: /i', "<code>", $body);
         $body = preg_replace('/ :cde/i', "</code>", $body);
+        return $body;
+    }
+
+    private function replaceTagAndGetBody($tag, $pattern, $body)
+    {
+        $replacement = "<$tag>";
+        $body = preg_replace($pattern, $replacement, $body);
+        $body = preg_replace('/(:' . $tag . ')/im', "</$tag>", $body);
         return $body;
     }
 
